@@ -1,0 +1,10 @@
+version: '3'
+services: 
+  api-solid-portaria:
+    image: bitnami/potgresql
+    ports: 
+    -5432:5432
+    enviroment:
+    -POSTGRESQL_USERNAME=docker
+    -POSTGRESQL_PASSWORD=docker
+    -POSTGRESQL_DATABASE=apisolid
