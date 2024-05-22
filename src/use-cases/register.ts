@@ -24,15 +24,12 @@ export class RegisterUser {
         password
     }: RegisterUseCaseRequest) {
 
-        const hash_passaword = await hash(password, 2)
-
         const userWithSameEmail = await this.userRepository.findByEmail(email)
-
         if (userWithSameEmail) {
             throw new UserAlreadyExistError()
         }
+        const hash_passaword = await hash(password, 2)
 
-        // const prismaUseCaseRepository = new PrimsaUserRepositpries()
 
         await this.userRepository.create({
             name,
