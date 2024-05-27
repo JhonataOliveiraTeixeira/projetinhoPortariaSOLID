@@ -1,25 +1,21 @@
 import { UserAlreadyExistError } from "@/erros/user-already-exist";
 import { PrimsaUserRepositpries } from "@/repositories/prisma/prisma-users-repositories";
-import { updateUsers } from "@/use-cases/update-user";
+import { DeleteUser } from "@/use-cases/delete-user";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-export async function update(request: FastifyRequest, reply: FastifyReply) {
+export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
-        name: z.string(),
-        email: z.string().email(),
-        call: z.string().min(11),
+        id: z.string()
     })
-    const { name, email, call } = registerBodySchema.parse(request.body)
+    const { id } = registerBodySchema.parse(request.body)
 
     try {
 
         const prismaUserRepositories = new PrimsaUserRepositpries()
-        const registerUsercase = new updateUsers(prismaUserRepositories)
+        const registerUsercase = new DeleteUser(prismaUserRepositories)
         await registerUsercase.execute({
-            name,
-            email,
-            call,
+            id
         })
     } catch (err) {
         if (err instanceof UserAlreadyExistError) {
@@ -29,6 +25,6 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
         throw err
     }
 
-    return reply.status(201).send()
+    return reply.status(200).send()
 
 }
