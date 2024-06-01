@@ -7,7 +7,7 @@ REQUISITOS FUNCIONAIS
 
 REGRA DE NEGOCIOS
 
-[] Autenticação de usuários
+[x] Autenticação de usuários
 [x] Apartamentos que possuem moradores 
 [] O edificio terá 10 andares e cada andar deve possuir 6 Apartamentos
 []Relação entre usuário e Apartamentos
