@@ -6,6 +6,7 @@ export class PrimsaUserRepositpries implements UserRepository {
     async viewAll() {
         const users = await prisma.user.findMany({
             select: {
+                id: true,
                 name: true,
                 email: true,
                 call: true,
