@@ -14,10 +14,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         apartamentosId
             : z
                 .string()
-                .length(3)
+                .length(3),
+        concierge: z.boolean()
     })
 
-    const { name, email, call, tipo, password, apartamentosId } = registerBodySchema.parse(request.body)
+    const { name, email, call, tipo, password, apartamentosId, concierge } = registerBodySchema.parse(request.body)
 
     try {
 
@@ -29,7 +30,8 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
             call,
             tipo,
             password,
-            apartamentosId
+            apartamentosId,
+            concierge
 
         })
     } catch (err) {

@@ -9,7 +9,8 @@ export class PrimsaUserRepositpries implements UserRepository {
                 name: true,
                 email: true,
                 call: true,
-                tipo: true
+                tipo: true,
+                concierge: true
             }
         });
         return users;
