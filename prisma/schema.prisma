@@ -14,33 +14,14 @@ datasource db {
 }
 
 model User {
-  id             String         @id @default(uuid())
+  id             String   @id @default(uuid())
   name           String
-  email          String         @unique
+  email          String   @unique
   call           String
   tipo           Boolean
   hash_passaword String
-  Apartamentos   Apartamentos[]
+  apartamentosId String
+  concierge      Boolean?
 
   @@map("users")
-}
-
-model Apartamentos {
-  id String @id @default(uuid())
-  ap String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  blocos   Blocos @relation(fields: [blocosId], references: [id])
-  blocosId String @unique
-
-  @@map("ap")
-}
-
-model Blocos {
-  id    String @id @default(uuid())
-  block String
-
-  Apartamentos Apartamentos?
 }

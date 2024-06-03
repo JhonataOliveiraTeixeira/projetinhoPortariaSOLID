@@ -8,7 +8,9 @@ interface RegisterUseCaseRequest {
     email: string,
     call: string,
     tipo: boolean
-    password: string
+    password: string,
+    apartamentosId: string
+
 
 }
 
@@ -21,7 +23,8 @@ export class RegisterUser {
         email,
         call,
         tipo,
-        password
+        password,
+        apartamentosId
     }: RegisterUseCaseRequest) {
 
         const userWithSameEmail = await this.userRepository.findByEmail(email)
@@ -36,7 +39,9 @@ export class RegisterUser {
             email,
             call,
             tipo,
-            hash_passaword
+            hash_passaword,
+            apartamentosId
+
         })
 
     }

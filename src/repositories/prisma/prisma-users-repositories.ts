@@ -34,6 +34,7 @@ export class PrimsaUserRepositpries implements UserRepository {
                 name,
                 email,
                 call,
+
             }
         })
         return user
