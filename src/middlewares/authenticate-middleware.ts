@@ -1,6 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { prisma } from "@/lib/prisma";
+import { TokenNoExistError } from "@/erros/token-no-exist";
 
 
 interface DecodedToken {
@@ -18,7 +19,7 @@ export function middlewareAuthenticate(permission: boolean) {
             const MY_SECRET_KEY = process.env.MY_SECRET_KEY
 
             if (!MY_SECRET_KEY) {
-                throw new Error("Token não informado!")
+                throw new TokenNoExistError()
             }
 
             const decodedToken = verify(token, MY_SECRET_KEY) as DecodedToken
@@ -35,10 +36,6 @@ export function middlewareAuthenticate(permission: boolean) {
                     }
                 })
 
-                // const userPermission = user?.concierge?.valueOf()
-                // if (!userPermission) {
-                //     return reply.status(403).send({ message: "Acesso negado" })
-                // }
             }
             return
         } catch (error) {

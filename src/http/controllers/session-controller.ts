@@ -40,7 +40,7 @@ export const signIn = async (req: FastifyRequest<{ Body: SignInRequestBody }>, r
             userId: user.id, roles: user.concierge.valueOf()
         }, MY_SECRET_KEY, {
             algorithm: "HS256",
-            expiresIn: "24h",
+            // expiresIn: ,
         })
 
         return reply.status(200).send({ token })
