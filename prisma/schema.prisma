@@ -19,7 +19,7 @@ model User {
   email          String   @unique
   call           String
   tipo           Boolean
-  hash_passaword String
+  hash_passaword String?
   apartamentosId String
   concierge      Boolean?
 

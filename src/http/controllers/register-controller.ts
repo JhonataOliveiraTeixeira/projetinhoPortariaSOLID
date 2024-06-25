@@ -3,6 +3,7 @@ import { FastifyRequest, FastifyReply } from "fastify"
 import { RegisterUser } from "@/use-cases/register"
 import { PrimsaUserRepositpries } from "@/repositories/prisma/prisma-users-repositories"
 import { UserAlreadyExistError } from "@/erros/user-already-exist"
+import { PasswordShort } from "@/erros/passarword-is-short"
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
@@ -10,16 +11,21 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         email: z.string().email(),
         call: z.string().min(11),
         tipo: z.boolean(),
-        password: z.string().min(6),
+        password: z.string().optional(),
         apartamentosId
             : z
                 .string()
-                .length(3),
+                .max(4)
+                .min(3),
         concierge: z.boolean()
     })
 
     const { name, email, call, tipo, password, apartamentosId, concierge } = registerBodySchema.parse(request.body)
-
+    let checkoutPassword = password
+    if (checkoutPassword && checkoutPassword.length < 6) {
+        const err = new PasswordShort
+        return reply.status(400).send({ mensage: err.message })
+    }
     try {
 
         const prismaUserRepositories = new PrimsaUserRepositpries()
@@ -29,7 +35,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
             email,
             call,
             tipo,
-            password,
+            password: password || "",
             apartamentosId,
             concierge
 

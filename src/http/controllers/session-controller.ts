@@ -1,33 +1,34 @@
-import { prisma } from "@/lib/prisma";
-import { compare } from "bcryptjs";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { sign } from "jsonwebtoken";
+import { prisma } from "@/lib/prisma"
+import { compare } from "bcryptjs"
+import { FastifyReply, FastifyRequest } from "fastify"
+import { sign } from "jsonwebtoken"
+
 
 interface SignInRequestBody {
-    email: string;
-    password: string;
+    email: string
+    password: string
 }
 
 export const signIn = async (req: FastifyRequest<{ Body: SignInRequestBody }>, reply: FastifyReply) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body
 
         const user = await prisma.user.findUnique({
             where: {
                 email,
             },
-        });
+        })
 
         if (!user) {
-            return reply.status(400).send({ message: "Usuário não encontrado" });
+            return reply.status(400).send({ message: "Usuário não encontrado" })
         }
         if (!user.concierge) {
-            return reply.status(401).send({ message: "Acesso negado 1" });
+            return reply.status(401).send({ message: "Acesso negado" })
         }
+        const isPasswordValid = user.hash_passaword ? await compare(password, user.hash_passaword) : false;
 
-        const isPasswordValid = await compare(password, user.hash_passaword)
         if (!isPasswordValid) {
-            return reply.status(400).send({ message: "Acesso negado 2" });
+            return reply.status(400).send({ message: "Acesso negado" })
         }
 
         const MY_SECRET_KEY = process.env.MY_SECRET_KEY
@@ -45,6 +46,6 @@ export const signIn = async (req: FastifyRequest<{ Body: SignInRequestBody }>, r
 
         return reply.status(200).send({ token })
     } catch (error) {
-        return reply.status(500).send({ message: "Erro na autenticação" });
+        return reply.status(500).send({ message: "Erro na autenticação" })
     }
-};
+}
