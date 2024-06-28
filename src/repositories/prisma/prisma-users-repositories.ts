@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from '@prisma/client'
 import { UserRepository } from "../users-repository";
 
+
 export class PrimsaUserRepositpries implements UserRepository {
     async viewAll() {
         const users = await prisma.user.findMany({
@@ -26,11 +27,11 @@ export class PrimsaUserRepositpries implements UserRepository {
         return user
     }
 
-    async updateUser(name: string, email: string, call: string) {
+    async updateUser(id: string, name?: string, email?: string, call?: string) {
 
         const user = await prisma.user.update({
             where: {
-                email,
+                id
             },
             data: {
                 name,

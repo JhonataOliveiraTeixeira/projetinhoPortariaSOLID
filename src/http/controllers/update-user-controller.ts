@@ -6,17 +6,19 @@ import { z } from "zod";
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
+        id: z.string(),
         name: z.string(),
         email: z.string().email(),
         call: z.string().min(11),
     })
-    const { name, email, call } = registerBodySchema.parse(request.body)
+    const { id, name, email, call } = registerBodySchema.parse(request.body)
 
     try {
 
         const prismaUserRepositories = new PrimsaUserRepositpries()
         const registerUsercase = new updateUsers(prismaUserRepositories)
         await registerUsercase.execute({
+            id,
             name,
             email,
             call,
