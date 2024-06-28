@@ -12,6 +12,7 @@ export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
 
     try {
 
+
         const prismaUserRepositories = new PrimsaUserRepositpries()
         const registerUsercase = new DeleteUser(prismaUserRepositories)
         await registerUsercase.execute({
@@ -25,6 +26,6 @@ export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
         throw err
     }
 
-    return reply.status(200).send()
+    return reply.status(204).send()
 
 }
