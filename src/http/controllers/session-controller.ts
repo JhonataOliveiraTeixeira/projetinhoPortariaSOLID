@@ -32,6 +32,6 @@ export async function signIn(req: FastifyRequest<{ Body: SignInRequestBody }>, r
         return reply.status(200).send({ token })
     } catch (error) {
         console.error(error)
-        return reply.status(500).send({ message: "Erro na autenticação controler" })
+        return reply.status(500).send({ message: "Erro na autenticação" })
     }
 }

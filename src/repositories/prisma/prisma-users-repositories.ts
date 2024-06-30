@@ -42,6 +42,18 @@ export class PrimsaUserRepositpries implements UserRepository {
         })
         return user
     }
+    async updatePassword(email: string, password: string) {
+        const user = await prisma.user.update({
+            where: {
+                email
+            },
+            data: {
+                hash_passaword: password
+            }
+        })
+        return user
+    }
+
     async findByEmail(email: string) {
         const user = await prisma.user.findUnique({
             where: {

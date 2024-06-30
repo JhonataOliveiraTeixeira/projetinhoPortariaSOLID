@@ -8,4 +8,5 @@ export interface UserRepository {
     delete(id: string): Promise<User | null>
     exists(id: string): Promise<boolean>
     authenticate(email: string): Promise<User | null>
+    updatePassword(email: string, hash_passaword: string): Promise<User | null>
 }
