@@ -1,4 +1,5 @@
 import { UserNotExist } from "@/erros/cheking-cases/cheking-user-exist";
+import { UserNotPermission } from "@/erros/cheking-cases/user-not-concierge";
 import { UserRepository } from "@/repositories/users-repository";
 import { hash } from "bcryptjs";
 import { randomBytes } from "crypto";
@@ -17,6 +18,9 @@ export class ResetPassword {
 
         if (!user) {
             throw new UserNotExist()
+        }
+        if (!user.concierge) {
+            throw new UserNotPermission()
         }
 
         const transporter = await createTransport({
