@@ -1,3 +1,4 @@
+import { UserNotExist } from "@/erros/cheking-cases/cheking-user-exist"
 import { UserRepository } from "@/repositories/users-repository"
 
 interface updateUserRequest {
@@ -17,6 +18,10 @@ export class updateUsers {
         call
     }: updateUserRequest) {
 
+        const userExist = await this.userRepository.exists(id)
+        if (!userExist) {
+            throw new UserNotExist()
+        }
 
         await this.userRepository.updateUser(
             id,

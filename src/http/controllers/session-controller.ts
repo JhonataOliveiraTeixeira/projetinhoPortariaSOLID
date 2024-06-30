@@ -1,7 +1,11 @@
-import { prisma } from "@/lib/prisma"
-import { compare } from "bcryptjs"
+import { TokenService } from "@/repositories/middleware- repository"
+import { PrimsaUserRepositpries } from "@/repositories/prisma/prisma-users-repositories"
+import { AuthenticateUSer } from "@/use-cases/authenticate"
 import { FastifyReply, FastifyRequest } from "fastify"
-import { sign } from "jsonwebtoken"
+import { z } from "zod"
+import { env } from "@/env"
+
+
 
 
 interface SignInRequestBody {
@@ -9,43 +13,25 @@ interface SignInRequestBody {
     password: string
 }
 
-export const signIn = async (req: FastifyRequest<{ Body: SignInRequestBody }>, reply: FastifyReply) => {
+export async function signIn(req: FastifyRequest<{ Body: SignInRequestBody }>, reply: FastifyReply) {
+    const registerBodySchema = z.object({
+        email: z.string().email(),
+        password: z.string().min(6)
+    })
+    const { email, password } = registerBodySchema.parse(req.body)
     try {
-        const { email, password } = req.body
+        const prismaUserRepositories = new PrimsaUserRepositpries()
+        const tokenService = new TokenService(env.MY_SECRET_KEY)
+        const authenticateUser = new AuthenticateUSer(prismaUserRepositories, tokenService)
 
-        const user = await prisma.user.findUnique({
-            where: {
-                email,
-            },
-        })
-
-        if (!user) {
-            return reply.status(400).send({ message: "Usuário não encontrado" })
-        }
-        if (!user.concierge) {
-            return reply.status(401).send({ message: "Acesso negado" })
-        }
-        const isPasswordValid = user.hash_passaword ? await compare(password, user.hash_passaword) : false;
-
-        if (!isPasswordValid) {
-            return reply.status(400).send({ message: "Acesso negado" })
-        }
-
-        const MY_SECRET_KEY = process.env.MY_SECRET_KEY
-
-        if (!MY_SECRET_KEY) {
-            throw new Error("Token não informado!")
-        }
-
-        const token = sign({
-            userId: user.id, roles: user.concierge.valueOf()
-        }, MY_SECRET_KEY, {
-            algorithm: "HS256",
-            // expiresIn: ,
+        const { token } = await authenticateUser.execute({
+            email,
+            password,
         })
 
         return reply.status(200).send({ token })
     } catch (error) {
-        return reply.status(500).send({ message: "Erro na autenticação" })
+        console.error(error)
+        return reply.status(500).send({ message: "Erro na autenticação controler" })
     }
 }
