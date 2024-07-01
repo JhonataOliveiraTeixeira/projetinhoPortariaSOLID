@@ -12,8 +12,12 @@ export class PrimsaUserRepositpries implements UserRepository {
                 email: true,
                 call: true,
                 tipo: true,
+<<<<<<< HEAD
                 concierge: true,
                 apartamentosId: true
+=======
+                concierge: true
+>>>>>>> 13f973e6f3ad82ca8b620682aaea153f4deb9faa
             }
         });
         return users;
@@ -43,6 +47,7 @@ export class PrimsaUserRepositpries implements UserRepository {
         })
         return user
     }
+<<<<<<< HEAD
     async searchUser(email?:string, name?: string, apartamentosId?: string, call?: string): Promise< {} | null> {
         const user = await prisma.user.findMany({
             where:{
@@ -65,6 +70,8 @@ export class PrimsaUserRepositpries implements UserRepository {
         return user
     }
     
+=======
+>>>>>>> 13f973e6f3ad82ca8b620682aaea153f4deb9faa
     async updatePassword(email: string, password: string) {
         const user = await prisma.user.update({
             where: {

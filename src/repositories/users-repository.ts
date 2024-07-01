@@ -9,5 +9,8 @@ export interface UserRepository {
     exists(id: string): Promise<boolean>
     authenticate(email: string): Promise<User | null>
     updatePassword(email: string, hash_passaword: string): Promise<User | null>
+<<<<<<< HEAD
     searchUser(email?:string, name?: string, apartamentosId?: string, call?: string): Promise<{}| null>
+=======
+>>>>>>> 13f973e6f3ad82ca8b620682aaea153f4deb9faa
 }
