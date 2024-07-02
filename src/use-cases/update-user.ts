@@ -5,7 +5,8 @@ interface updateUserRequest {
     id: string,
     name: string,
     email: string,
-    call: string
+    call: string,
+    apartamentosID: string
 }
 
 export class updateUsers {
@@ -15,7 +16,8 @@ export class updateUsers {
         id,
         name,
         email,
-        call
+        call,
+        apartamentosID,
     }: updateUserRequest) {
 
         const userExist = await this.userRepository.exists(id)
@@ -27,7 +29,8 @@ export class updateUsers {
             id,
             name,
             email,
-            call
+            call,
+            apartamentosID
         )
     }
 }

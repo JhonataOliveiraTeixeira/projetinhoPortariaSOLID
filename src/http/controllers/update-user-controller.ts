@@ -10,8 +10,9 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
         name: z.string(),
         email: z.string().email(),
         call: z.string().min(11),
+        apartamentosID: z.string().min(3).max(4)
     })
-    const { id, name, email, call } = registerBodySchema.parse(request.body)
+    const { id, name, email, call, apartamentosID } = registerBodySchema.parse(request.body)
 
     try {
 
@@ -22,6 +23,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
             name,
             email,
             call,
+            apartamentosID
         })
     } catch (err) {
         if (err instanceof UserAlreadyExistError) {
