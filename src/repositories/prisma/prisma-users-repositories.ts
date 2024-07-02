@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma, User } from '@prisma/client'
+import { Prisma, User } from '@prisma/client';
 import { UserRepository } from "../users-repository";
-
 
 export class PrimsaUserRepositpries implements UserRepository {
     async viewAll() {
@@ -12,12 +11,8 @@ export class PrimsaUserRepositpries implements UserRepository {
                 email: true,
                 call: true,
                 tipo: true,
-<<<<<<< HEAD
                 concierge: true,
                 apartamentosId: true
-=======
-                concierge: true
->>>>>>> 13f973e6f3ad82ca8b620682aaea153f4deb9faa
             }
         });
         return users;
@@ -28,12 +23,11 @@ export class PrimsaUserRepositpries implements UserRepository {
             where: {
                 id
             }
-        })
-        return user
+        });
+        return user;
     }
 
     async updateUser(id: string, name?: string, email?: string, call?: string) {
-
         const user = await prisma.user.update({
             where: {
                 id
@@ -41,16 +35,15 @@ export class PrimsaUserRepositpries implements UserRepository {
             data: {
                 name,
                 email,
-                call,
-
+                call
             }
-        })
-        return user
+        });
+        return user;
     }
-<<<<<<< HEAD
-    async searchUser(email?:string, name?: string, apartamentosId?: string, call?: string): Promise< {} | null> {
+
+    async searchUser(email?: string, name?: string, apartamentosId?: string, call?: string): Promise< {} | null> {
         const user = await prisma.user.findMany({
-            where:{
+            where: {
                 email,
                 name,
                 apartamentosId,
@@ -65,13 +58,10 @@ export class PrimsaUserRepositpries implements UserRepository {
                 concierge: true,
                 apartamentosId: true
             }
-            
-        })
-        return user
+        });
+        return user;
     }
-    
-=======
->>>>>>> 13f973e6f3ad82ca8b620682aaea153f4deb9faa
+
     async updatePassword(email: string, password: string) {
         const user = await prisma.user.update({
             where: {
@@ -80,8 +70,8 @@ export class PrimsaUserRepositpries implements UserRepository {
             data: {
                 hash_passaword: password
             }
-        })
-        return user
+        });
+        return user;
     }
 
     async findByEmail(email: string) {
@@ -89,33 +79,30 @@ export class PrimsaUserRepositpries implements UserRepository {
             where: {
                 email,
             }
-        })
-        return user
+        });
+        return user;
     }
 
     async create(data: Prisma.UserCreateInput) {
         const user = await prisma.user.create({
             data
-        })
-
-        return user
+        });
+        return user;
     }
+
     async exists(id: string): Promise<boolean> {
-        const user = await prisma.user.findUnique(
-            {
-                where: { id }
-            }
-        )
-
-        return user !== null
+        const user = await prisma.user.findUnique({
+            where: { id }
+        });
+        return user !== null;
     }
+
     async authenticate(email: string) {
         const user = await prisma.user.findUnique({
             where: {
                 email,
             }
-        })
-        return user
+        });
+        return user;
     }
-
 }
