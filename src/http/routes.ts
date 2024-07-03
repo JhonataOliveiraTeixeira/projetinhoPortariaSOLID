@@ -14,6 +14,6 @@ export async function appRoutes(app: FastifyInstance) {
     app.delete('/delete-user', { preHandler: middlewareAuthenticate(true) }, deleteUser);
     app.get('/view-all', { preHandler: middlewareAuthenticate(true) }, view_all);
     app.post('/signin', signIn);
-    app.put('/forgot-passwordd', { preHandler: middlewareAuthenticate(true) }, forgotPasswordController);
-    app.get('/search-user',{ preHandler: middlewareAuthenticate(true) }, searcherUserController )
+    app.put('/forgot-passwordd', forgotPasswordController);
+    app.post('/searchuser', { preHandler: middlewareAuthenticate(true) }, searcherUserController)
 }

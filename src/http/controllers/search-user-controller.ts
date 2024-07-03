@@ -6,32 +6,35 @@ import { z } from "zod"
 
 
 export async function searcherUserController(request: FastifyRequest, reply: FastifyReply) {
+
     const registerBodySchema = z.object({
-        name: z.string(),
-        email: z.string().email(),
-        call: z.string().min(11),
+        name: z.string().optional(),
+        email: z.string().email().optional(),
+        call: z.string().min(11).optional(),
         apartamentosId
             : z
                 .string()
                 .max(4)
-                .min(3),
+                .min(3)
+                .optional(),
     })
     const { name, email, call, apartamentosId } = registerBodySchema.parse(request.body)
-try{
-    const prismaUserRepositories = new PrimsaUserRepositpries()
-    const registerUsercase = new SearchUser(prismaUserRepositories)
-    await registerUsercase.execute({
-        name,
-        email,
-        call,
-        apartamentosId,
+    try {
+        const prismaUserRepositories = new PrimsaUserRepositpries()
+        const SearchUseri = new SearchUser(prismaUserRepositories)
+        const responseBody = await SearchUseri.execute({
+            email,
+            name,
+            apartamentosId,
+            call
 
-    })
-    return reply.status(200).send()
-}catch (err) {
-    if (err instanceof UserNotExist) {
-        reply.status(409).send({ mensage: err.message })
+        })
+        return reply.status(200).send(responseBody)
+    } catch (err) {
+        if (err instanceof UserNotExist) {
+            reply.status(409).send({ mensage: err.message })
+        }
+        reply.status(404).send()
+
     }
-
-}
 }

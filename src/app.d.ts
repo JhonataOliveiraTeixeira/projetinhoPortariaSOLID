@@ -23,7 +23,8 @@ app.addHook('onRequest', (request, reply, done) => {
     done();
 });
 
-app.register(appRoutes);
+app.register(appRoutes)
+
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {

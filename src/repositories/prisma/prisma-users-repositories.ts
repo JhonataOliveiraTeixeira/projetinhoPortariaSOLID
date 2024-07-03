@@ -41,7 +41,7 @@ export class PrimsaUserRepositpries implements UserRepository {
         return user;
     }
 
-    async searchUser(email?: string, name?: string, apartamentosId?: string, call?: string): Promise< {} | null> {
+    async searchUser(email?: string, name?: string, apartamentosId?: string, call?: string): Promise<{} | null> {
         const user = await prisma.user.findMany({
             where: {
                 email,

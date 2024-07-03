@@ -1,34 +1,35 @@
 import { UserNotExist } from "@/erros/cheking-cases/cheking-user-exist"
 import { UserRepository } from "@/repositories/users-repository"
 
-interface sercheUserRequest{
-    email: string
-    name: string
-    call: string
-    apartamentosId: string
+interface sercheUserRequest {
+    email: string | undefined
+    name: string | undefined
+    call: string | undefined
+    apartamentosId: string | undefined
 }
 
 
-export class SearchUser{
-    constructor(private userRepository: UserRepository){}
+export class SearchUser {
+    constructor(private userRepository: UserRepository) { }
 
     async execute({
         email,
-        call,
         name,
-        apartamentosId}: sercheUserRequest
-    ){
-        const userExist = await this.userRepository.searchUser(
+        apartamentosId,
+        call }: sercheUserRequest
+    ) {
+        const userSearch = await this.userRepository.searchUser(
             email,
-            call,
+            name,
             apartamentosId,
-            name
+            call
         )
-        if (!userExist) {
+        console.log(userSearch)
+        if (!userSearch) {
             throw new UserNotExist()
         }
 
-
+        return userSearch
 
     }
 
