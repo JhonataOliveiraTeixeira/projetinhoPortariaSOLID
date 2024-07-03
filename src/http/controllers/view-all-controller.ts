@@ -1,5 +1,6 @@
 import { UserAlreadyExistError } from "@/erros/user-already-exist";
 import { PrimsaUserRepositpries } from "@/repositories/prisma/prisma-users-repositories";
+import { ViewAllUseCase } from "@/use-cases/view-all";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function view_all(request: FastifyRequest, reply: FastifyReply) {
@@ -7,7 +8,8 @@ export async function view_all(request: FastifyRequest, reply: FastifyReply) {
     try {
 
         const prismaUserRepositories = new PrimsaUserRepositpries()
-        const allUsers = await prismaUserRepositories.viewAll()
+        const viewAll = new ViewAllUseCase(prismaUserRepositories)
+        const allUsers = await viewAll.execute()
         reply.send(allUsers)
 
     } catch (err) {
