@@ -7,10 +7,10 @@ import { z } from "zod";
 export async function update(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
         id: z.string(),
-        name: z.string(),
-        email: z.string().email(),
-        call: z.string().min(11),
-        apartamentosID: z.string().min(3).max(4)
+        name: z.string().optional(),
+        email: z.string().email().optional(),
+        call: z.string().min(11).optional(),
+        apartamentosID: z.string().min(3).max(4).optional()
     })
     const { id, name, email, call, apartamentosID } = registerBodySchema.parse(request.body)
 

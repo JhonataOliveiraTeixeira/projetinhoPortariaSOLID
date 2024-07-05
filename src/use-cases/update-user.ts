@@ -2,11 +2,11 @@ import { UserNotExist } from "@/erros/cheking-cases/cheking-user-exist"
 import { UserRepository } from "@/repositories/users-repository"
 
 interface updateUserRequest {
-    id: string,
-    name: string,
-    email: string,
-    call: string,
-    apartamentosID: string
+    id: string ,
+    name: string| undefined,
+    email: string| undefined,
+    call: string| undefined,
+    apartamentosID: string| undefined,
 }
 
 export class updateUsers {
