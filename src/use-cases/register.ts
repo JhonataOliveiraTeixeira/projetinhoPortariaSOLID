@@ -34,10 +34,11 @@ export class RegisterUser {
         if (password) {
             hash_passaword = await hash(password, 2)
         }
+        const emailLower = email.toLowerCase()
 
         await this.userRepository.create({
             name,
-            email,
+            email:emailLower,
             call,
             tipo,
             hash_passaword: hash_passaword,
